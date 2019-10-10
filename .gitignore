@@ -59,3 +59,6 @@ docs/_build/
 
 # VS Code
 .vscode/settings.json
+
+# Flask env
+.flaskenv
