@@ -1,5 +1,6 @@
 import os
-from flask import Flask, render_template
+import requests
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
@@ -15,7 +16,18 @@ from models import Result  # noqa workaround for circular import
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    errors = []
+    results = {}
+    if request.method == "POST":
+        try:
+            url = request.form.get('url')
+            r = requests.get(url)
+            print(r.text)
+        except Exception:
+            errors.append(
+                "Unable to get URL. Please make sure it's valid and try again."
+            )
+    return render_template('index.html', errors=errors, results=results)
 
 
 if __name__ == '__main__':
