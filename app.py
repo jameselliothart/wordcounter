@@ -24,6 +24,7 @@ from models import Result  # noqa workaround for circular import
 def index():
     errors = []
     results = {}
+    r = None
     if request.method == "POST":
         try:
             url = request.form.get('url')
