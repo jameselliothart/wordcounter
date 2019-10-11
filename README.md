@@ -1,6 +1,14 @@
 # Word Count
 
-## Database Migration Notes
+The (slightly dated) tutorial for this application can be found at:  
+https://realpython.com/flask-by-example-part-1-project-setup/
+
+View Stage here: https://jh-wordcount-stage.herokuapp.com  
+View Production: https://jh-wordcount-pro.herokuapp.com
+
+## Deployment Notes
+
+### Database Migrations
 
 Migrations are handled by alembic via flask-migrate
 
@@ -12,9 +20,10 @@ Migration steps after initializing with `flask db init`:
 1. `flask db migrate -m "optional descriptive text"`
 2. `flask db upgrade`
 
-## Deployment Notes
+To upgrade Heroku, run:  
+`heroku run flask db upgrade --app jh-wordcount-stage`
 
-### Heroku Steps
+### Heroku Initial Setup
 
 First add ssh keys for authentication to heroku with
 `heroku keys:add`. Check if keys exist with `heroku keys`.
@@ -35,7 +44,8 @@ PS > heroku config --app jh-wordcount-stage
 APP_SETTINGS: config.StagingConfig
 ```
 
-* The configuration setting for the application is set with  
+Configure application settings with:  
 `heroku config:set APP_SETTINGS=config.StagingConfig --remote stage`
-* The database configuration is added with  
+
+Set database configuration with:  
 `heroku addons:create heroku-postgresql:hobby-dev --app jh-wordcount-stage`
