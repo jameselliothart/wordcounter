@@ -20,7 +20,7 @@ Migration steps after initializing with `flask db init`:
 1. `flask db migrate -m "optional descriptive text"`
 2. `flask db upgrade`
 
-To upgrade Heroku, run:  
+To upgrade the Heroku database, run:  
 `heroku run flask db upgrade --app jh-wordcount-stage`
 
 ### Heroku Initial Setup
@@ -49,3 +49,8 @@ Configure application settings with:
 
 Set database configuration with:  
 `heroku addons:create heroku-postgresql:hobby-dev --app jh-wordcount-stage`
+
+### Heroku Troubleshooting
+
+View streaming logs with:
+`heroku logs -t --remote stage`
