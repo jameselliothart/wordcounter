@@ -6,7 +6,30 @@ https://realpython.com/flask-by-example-part-1-project-setup/
 View Stage here: https://jh-wordcount-stage.herokuapp.com  
 View Production: https://jh-wordcount-pro.herokuapp.com
 
+## Setup
+
+On Ubuntu, need to install libpq-dev for psycopg2:  
+`sudo apt-get install libpq-dev`
+
 ## Deployment Notes
+
+### Docker
+
+Postgres container setup:
+```sh
+docker pull postgres
+mkdir -p $HOME/docker/volumes/wordcounter
+docker run --rm --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v $HOME/docker/volumes/wordcounter:/var/lib/postgresql/data postgres
+docker exec -it pg-docker bash  # opens bash "inside" the container
+psql -U postgres
+```
+
+Redis container setup:
+```sh
+docker run -d -p 6379:6379 --name wordcounter-redis redis
+docker exec -it wordcounter-redis bash  # opens bash "inside" the container
+redis-cli  # opens redis cli for testing, e.g. >ping responds PONG, >set name mark >get name responds "mark"
+```
 
 ### Database Migrations
 
