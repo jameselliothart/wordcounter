@@ -63,3 +63,4 @@ docs/_build/
 # Dev environment settings
 .flaskenv
 .env.ps1
+.env
