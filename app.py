@@ -3,6 +3,7 @@ import requests
 import operator
 import re
 import nltk
+import json
 from rq import Queue
 from rq.job import Job
 from worker import conn
@@ -69,18 +70,22 @@ def count_and_save_words(url):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    results = {}
-    if request.method == "POST":
-        url = request.form.get('url')
-        job = q.enqueue_call(
-            func=count_and_save_words, args=(url,), result_ttl=5000
-        )
-        print(job.get_id())
-
-    return render_template('index.html', results=results)
+    return render_template('index.html')
 
 
-@app.route("/results/<job_key>", methods=['GET'])
+@app.route('/start', methods=['POST'])
+def get_counts():
+    # get url from POST payload
+    data = json.loads(request.data.decode())
+    url = data["url"]
+    # start job
+    job = q.enqueue_call(
+        func=count_and_save_words, args=(url,), result_ttl=5000
+    )
+    return job.get_id()
+
+
+@app.route('/results/<job_key>', methods=['GET'])
 def get_results(job_key):
     job = Job.fetch(job_key, connection=conn)
 
@@ -90,7 +95,7 @@ def get_results(job_key):
             result.result_no_stop_words.items(),
             key=operator.itemgetter(1),
             reverse=True
-        )
+        )  # should specify the number of results to return here, eg [:10]
         return jsonify(results)
     else:
         return "Nay!", 202
