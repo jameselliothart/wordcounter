@@ -12,6 +12,9 @@
       .container {
         max-width: 1000px;
       }
+      #incrementer {
+        width: 150px;
+      }
     </style>
   </head>
   <body>
@@ -32,6 +35,13 @@
                 required
               />
             </div>
+            
+            <div id="incrementer">
+              <label for="quantity">Number of top words:</label>
+              <input type="number" id="quantity" name="quantity" class="form-control input-number" value="10">
+            </div>
+
+            <br>
             <button type="submit" class="btn btn-default">Submit</button>
           </form>
           <br />
