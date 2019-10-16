@@ -92,9 +92,10 @@
             type: "POST",
             contentType: "application/json",  // must explicitly specify for json.loads() to work
             data: JSON.stringify({url: inputUrl}),
-            success: res => console.log(res),
+            success: jobId => console.log(jobId),
             error: err => console.log(err)
           });
+
         });
 
       });
