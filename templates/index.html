@@ -80,6 +80,16 @@
     <script>
       $(document).ready(() => {
 
+        function getWordCount(jobId) {
+          var url = "/results/"+jobId;
+          function poller() {
+            $.get(url, data => console.log(data));
+          };
+
+          poller()
+          setTimeout(poller, 2000);
+        };
+
         var form = $("[role='form']");
         form.submit( event => {
           event.preventDefault();
@@ -92,7 +102,10 @@
             type: "POST",
             contentType: "application/json",  // must explicitly specify for json.loads() to work
             data: JSON.stringify({url: inputUrl}),
-            success: jobId => console.log(jobId),
+            success: jobId => {
+              console.log(jobId);
+              getWordCount(jobId);
+            },
             error: err => console.log(err)
           });
 
