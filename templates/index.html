@@ -1,117 +1,109 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Wordcount</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-      rel="stylesheet"
-      media="screen"
-    />
-    <style>
-      .container {
-        max-width: 1000px;
-      }
-      #incrementer {
-        width: 150px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-5 col-sm-offset-1">
-          <h1>Wordcounter</h1>
-          <form role="form" method="POST" action="/start">
-            <div class="form-group">
-              <input
-                type="text"
-                name="url"
-                class="form-control"
-                id="url-box"
-                placeholder="Enter URL..."
-                style="max-width: 300px;"
-                autofocus
-                required
-              />
-            </div>
 
-            <div id="incrementer">
-              <label for="quantity">Number of top words:</label>
-              <input type="number" id="quantity" name="quantity" class="form-control input-number" value="10">
-            </div>
+<head>
+  <title>Wordcount</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+  <style>
+    .container {
+      max-width: 1000px;
+    }
 
-            <br>
-            <button type="submit" class="btn btn-default">Submit</button>
-          </form>
-          <br />
-          {% for error in errors %}
-          <h4>{{ error }}</h4>
-          {% endfor %}
+    #incrementer {
+      width: 150px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-5 col-sm-offset-1">
+        <h1>Wordcounter</h1>
+        <form role="form" method="POST" action="/start">
+          <div class="form-group">
+            <input type="text" name="url" class="form-control" id="url-box" placeholder="Enter URL..."
+              style="max-width: 300px;" autofocus required />
+          </div>
+
+          <div id="incrementer">
+            <label for="quantity">Number of top words:</label>
+            <input type="number" id="quantity" name="quantity" class="form-control input-number" value="10">
+          </div>
+
           <br>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+        <br />
+        {% for error in errors %}
+        <h4>{{ error }}</h4>
+        {% endfor %}
+        <br>
+      </div>
+      <div class="col-sm-5 col-sm-offset-1">
+        {% if results %}
+        <h2>Frequencies</h2>
+        <br>
+        <div id="results">
+          <table class="table table-striped" style="max-width: 300px;">
+            <thead>
+              <tr>
+                <th>Word</th>
+                <th>Count</th>
+              </tr>
+            </thead>
+            {% for result in results %}
+            <tr>
+              <td>{{ result[0] }}</td>
+              <td>{{ result[1] }}</td>
+            </tr>
+            {% endfor %}
+          </table>
         </div>
-        <div class="col-sm-5 col-sm-offset-1">
-          {% if results %}
-            <h2>Frequencies</h2>
-            <br>
-            <div id="results">
-              <table class="table table-striped" style="max-width: 300px;">
-                <thead>
-                  <tr>
-                    <th>Word</th>
-                    <th>Count</th>
-                  </tr>
-                </thead>
-                {% for result in results %}
-                  <tr>
-                    <td>{{ result[0] }}</td>
-                    <td>{{ result[1] }}</td>
-                  </tr>
-                {% endfor %}
-              </table>
-            </div>
-          {% endif %}
-        </div>
+        {% endif %}
       </div>
     </div>
-    <br><br>
-    <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script>
-      $(document).ready(() => {
+  </div>
+  <br><br>
+  <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script>
+    $(document).ready(() => {
 
-        function getWordCount(jobId) {
-          var url = "/results/"+jobId;
-          function poller() {
-            $.get(url, data => console.log(data));
-          };
-
-          poller()
-          setTimeout(poller, 2000);
+      function getWordCount(jobId) {
+        var url = "/results/" + jobId;
+        function poller() {
+          $.get(url, data => console.log(data));
         };
 
-        var form = $("[role='form']");
-        form.submit( event => {
-          event.preventDefault();
+        poller()
+        setTimeout(poller, 2000);
+      };
 
-          var postUrl = form.attr("action");
-          var inputUrl = form.find('input[name="url"]').val();
+      var form = $("[role='form']");
+      form.submit(event => {
+        event.preventDefault();
 
-          $.ajax({
-            url: postUrl,
-            type: "POST",
-            contentType: "application/json",  // must explicitly specify for json.loads() to work
-            data: JSON.stringify({url: inputUrl}),
-            success: jobId => {
-              console.log(jobId);
-              getWordCount(jobId);
-            },
-            error: err => console.log(err)
-          });
+        var postUrl = form.attr("action");
+        var inputUrl = form.find('input[name="url"]').val();
 
+        $.ajax({
+          url: postUrl,
+          type: "POST",
+          contentType: "application/json",  // must explicitly specify for json.loads() to work
+          data: JSON.stringify({ url: inputUrl }),
+          success: jobId => {
+            console.log(jobId);
+            getWordCount(jobId);
+          },
+          error: err => console.log(err)
         });
 
       });
-    </script>
-  </body>
+
+    });
+  </script>
+</body>
+
 </html>
