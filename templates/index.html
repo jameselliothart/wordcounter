@@ -22,25 +22,22 @@
       <div class="col-sm-5 col-sm-offset-1">
         <h1>Wordcounter</h1>
         <form role="form" method="POST" action="/start">
+
           <div class="form-group">
             <input type="text" name="url" class="form-control" id="url-box" placeholder="Enter URL..."
               style="max-width: 300px;" autofocus required />
           </div>
 
-          <div id="incrementer">
+          <div class="form-group" id="incrementer">
             <label for="quantity">Number of top words:</label>
             <input type="number" id="quantity" name="quantity" class="form-control input-number" value="10">
           </div>
 
-          <br>
           <button type="submit" class="btn btn-default">Submit</button>
+
         </form>
-        <br />
-        {% for error in errors %}
-        <h4>{{ error }}</h4>
-        {% endfor %}
-        <br>
       </div>
+
       <div class="col-sm-5 col-sm-offset-1">
         {% if results %}
         <h2>Frequencies</h2>
