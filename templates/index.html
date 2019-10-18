@@ -42,7 +42,16 @@
         <h2>Frequencies</h2>
         <br>
         <div id="results">
-          
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Word</th>
+                <th>Count</th>
+              </tr>
+            </thead>
+            <tbody id="word-count">
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -61,7 +70,14 @@
             console.log(xhr.status);
             console.log(data);
             if (xhr.status == 200) {
-              $("#results").html(data);
+              $.each(data, (i, count) => {
+                $("#word-count").append(
+                  $("<tr>").append(
+                    $("<td>").text(count[0]),
+                    $("<td>").text(count[1])
+                  )
+                );
+              });
             } else {
               setTimeout(poller, 1000);
             }
