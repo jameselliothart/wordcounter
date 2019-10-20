@@ -48,8 +48,10 @@ To upgrade the Heroku database, run:
 
 ### Heroku Initial Setup
 
-First add ssh keys for authentication to heroku with
-`heroku keys:add`. Check if keys exist with `heroku keys`.
+1. Install Heroku cli: https://devcenter.heroku.com/articles/heroku-cli
+2. Log into Heroku: `heroku login`
+3. Add ssh keys for authentication to heroku: `heroku keys:add`
+    - Check if keys exist: `heroku keys`
 
 Then for each of stage and pro (production):
 ```cmd
@@ -77,3 +79,6 @@ Set database configuration with:
 
 View streaming logs with:
 `heroku logs -t --remote stage`
+
+To run heroku setup locally (activate virtualenv first and have .env file of environment configs):
+`heroku local`
