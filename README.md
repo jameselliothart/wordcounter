@@ -72,8 +72,11 @@ APP_SETTINGS: config.StagingConfig
 Configure application settings with:  
 `heroku config:set APP_SETTINGS=config.StagingConfig --remote stage`
 
-Set database configuration with:  
+Add postgresql and set database configuration with:  
 `heroku addons:create heroku-postgresql:hobby-dev --app jh-wordcount-stage`
+
+Add redis and set redis url with:
+`heroku addons:create redistogo:nano --app jh-wordcount-stage`
 
 ### Heroku Troubleshooting
 
