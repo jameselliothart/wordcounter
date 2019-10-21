@@ -89,12 +89,12 @@
 
       };
 
-      var form = $("[role='form']");
-      form.submit(event => {
+      var $form = $("[role='form']");
+      $form.submit(event => {
         event.preventDefault();
 
-        var postUrl = form.attr("action");
-        var inputUrl = form.find('input[name="url"]').val();
+        var postUrl = $form.attr("action");
+        var inputUrl = $form.find('input[name="url"]').val();
 
         $.ajax({
           url: postUrl,
