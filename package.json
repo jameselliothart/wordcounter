@@ -1,0 +1,8 @@
+{
+    "name": "wordcounter",
+    "version": "1.0.0",
+    "dependencies": {
+        "d3": "5.12.0",
+        "jquery": "2.2.4"
+    }
+}
