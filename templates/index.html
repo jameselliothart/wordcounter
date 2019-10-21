@@ -105,6 +105,7 @@
           success: jobId => {
             console.log(jobId);
             getWordCount(jobId);
+            $("#word-count").html(null);
             $("#submit-button").prop("disabled", true).text("Loading...");
           },
           error: err => console.log(err)
