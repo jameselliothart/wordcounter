@@ -36,6 +36,12 @@
           <button type="submit" id="submit-button" class="btn btn-default">Submit</button>
 
         </form>
+        <div class="alert alert-danger" role="alert" hidden>
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+          <span class="sr-only">Error:</span>
+          <span>There was an error submitting your URL.<br>
+            Please check to make sure it is valid before trying again.</span>
+        </div>
       </div>
 
       <div class="col-sm-5 col-sm-offset-1">
@@ -84,6 +90,11 @@
             } else {
               setTimeout(poller, 1000);
             }
+          }).fail((err) => {
+            console.log(err);
+            $("#submit-button").prop("disabled", false).text("Submit");
+            $("#spinner").hide();
+            $("[role='alert']").show();
           });
 
         };
@@ -110,6 +121,7 @@
             $("#word-count").html(null);
             $("#submit-button").prop("disabled", true).text("Loading...");
             $("#spinner").show();
+            $("[role='alert']").hide();
           },
           error: err => console.log(err)
         });
