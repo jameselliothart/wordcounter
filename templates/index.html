@@ -53,6 +53,7 @@
             </tbody>
           </table>
         </div>
+        <img id="spinner" class="col-sm-3 col-sm-offset-4" src="/static/spinner.gif" hidden />
       </div>
     </div>
   </div>
@@ -79,6 +80,7 @@
                 );
               });
               $("#submit-button").prop("disabled", false).text("Submit");
+              $("#spinner").hide();
             } else {
               setTimeout(poller, 1000);
             }
@@ -107,6 +109,7 @@
             getWordCount(jobId);
             $("#word-count").html(null);
             $("#submit-button").prop("disabled", true).text("Loading...");
+            $("#spinner").show();
           },
           error: err => console.log(err)
         });
