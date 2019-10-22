@@ -25,11 +25,15 @@ q = Queue(connection=conn)
 from models import Result  # noqa workaround for circular import
 
 
+def sanitize_url(url):
+    return url if 'http://' in url or 'https://' in url else f'https://{url}'
+
+
 def count_and_save_words(url):
     errors = []
 
     try:
-        r = requests.get(url)
+        r = requests.get(sanitize_url(url))
     except Exception:
         errors.append(
             "Unable to get URL. Please make sure it's valid and try again."
