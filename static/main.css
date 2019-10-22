@@ -1,3 +1,11 @@
+.container {
+    max-width: 1000px;
+}
+
+#incrementer {
+    width: 150px;
+}
+    
 #chart {
     overflow-y: scroll;
 }
