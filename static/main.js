@@ -6,8 +6,9 @@ $(document).ready(() => {
         var poller = () => {
             $.get(url, (data, status, xhr) => {
                 console.log(xhr.status);
-                console.log(data);
+                // console.log(data);
                 if (xhr.status == 200) {
+                    d3.select("#chart").selectAll("*").remove();
                     $.each(data, (i, count) => {
                         $("#word-count").append(
                             $("<tr>").append(
@@ -15,6 +16,15 @@ $(document).ready(() => {
                                 $("<td>").text(count[1])
                             )
                         );
+                        d3.select("#chart")
+                            .append("div")
+                            .selectAll("div")
+                            .data(count[0][0])
+                            .enter()
+                            .append("div")
+                            .style("width", () => (parseInt(count[1]) * 20) + 'px')
+                            .text(count[0])
+                            ;
                     });
                     $("#submit-button").prop("disabled", false).text("Submit");
                     $("#spinner").hide();
