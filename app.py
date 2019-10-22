@@ -88,6 +88,8 @@ def get_counts():
 @app.route('/results/<job_key>', methods=['GET'])
 def get_results(job_key):
     job = Job.fetch(job_key, connection=conn)
+    quantity = request.args.get('quantity', None)
+    results_quantity = int(quantity) if quantity else None
 
     if job.is_finished:
         result = Result.query.filter_by(id=job.result).first()
@@ -95,7 +97,7 @@ def get_results(job_key):
             result.result_no_stop_words.items(),
             key=operator.itemgetter(1),
             reverse=True
-        )  # should specify the number of results to return here, eg [:10]
+        )[:results_quantity]
         return jsonify(results)
     else:
         return "Nay!", 202

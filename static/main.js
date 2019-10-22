@@ -1,7 +1,11 @@
 $(document).ready(() => {
 
-    function getWordCount(jobId) {
+    function getWordCount(jobId, quantity) {
         var url = "/results/" + jobId;
+        if (quantity) {
+            var queryObj = { quantity: quantity };
+            url += "?" + $.param(queryObj);
+        }
 
         var poller = () => {
             $.get(url, (data, status, xhr) => {
@@ -50,6 +54,7 @@ $(document).ready(() => {
 
         var postUrl = $form.attr("action");
         var inputUrl = $form.find('input[name="url"]').val();
+        var quantity = $form.find("#quantity").val();
 
         $.ajax({
             url: postUrl,
@@ -58,7 +63,7 @@ $(document).ready(() => {
             data: JSON.stringify({ url: inputUrl }),
             success: jobId => {
                 console.log(jobId);
-                getWordCount(jobId);
+                getWordCount(jobId, quantity);
                 $("#word-count").html(null);
                 $("#submit-button").prop("disabled", true).text("Loading...");
                 $("#spinner").show();
