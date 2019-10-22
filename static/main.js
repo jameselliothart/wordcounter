@@ -12,7 +12,6 @@ $(document).ready(() => {
                 console.log(xhr.status);
                 // console.log(data);
                 if (xhr.status == 200) {
-                    d3.select("#chart").selectAll("*").remove();
                     $.each(data, (i, count) => {
                         $("#word-count").append(
                             $("<tr>").append(
@@ -67,6 +66,7 @@ $(document).ready(() => {
                 $("#word-count").html(null);
                 $("#submit-button").prop("disabled", true).text("Loading...");
                 $("#spinner").show();
+                d3.select("#chart").selectAll("*").remove();
                 $("[role='alert']").hide();
             },
             error: err => console.log(err)
